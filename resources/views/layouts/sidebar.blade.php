@@ -1,15 +1,22 @@
-<!-- Bootstrap 5.3 Sidebar: Variant 2 (bg-body-tertiary) -->
-<aside class="d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary border-end shadow-xs" style="width: 280px; min-height: 100vh;">
-    <!-- Brand -->
-    <a href="{{ route('dashboard') }}" class="d-flex align-items-center gap-2 mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none px-1">
-        <div class="rounded-3 bg-primary text-white d-flex align-items-center justify-content-center shadow-sm" style="width: 38px; height: 38px;">
-            <i class="bi bi-wrench-adjustable-circle fs-5"></i>
-        </div>
-        <div>
-            <span class="fs-4 fw-bold text-primary lh-1 tracking-tight">FixDesk</span>
-            <small class="d-block text-body-secondary" style="font-size: 11px;">ระบบจัดการงานซ่อม</small>
-        </div>
-    </a>
+<!-- Bootstrap 5.3 Responsive Sidebar: Variant 2 (bg-body-tertiary with offcanvas-lg) -->
+<aside id="sidebarMenu"
+       class="offcanvas-lg offcanvas-start d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary border-end shadow-xs"
+       tabindex="-1"
+       aria-labelledby="sidebarMenuLabel"
+       style="width: 280px; min-height: 100vh;">
+    <!-- Header with Brand & Mobile Close Button -->
+    <div class="d-flex align-items-center justify-content-between mb-3 mb-md-0 px-1">
+        <a href="{{ route('dashboard') }}" class="d-flex align-items-center gap-2 link-body-emphasis text-decoration-none">
+            <div class="rounded-3 bg-primary text-white d-flex align-items-center justify-content-center shadow-sm" style="width: 38px; height: 38px;">
+                <i class="bi bi-wrench-adjustable-circle fs-5"></i>
+            </div>
+            <div>
+                <span class="fs-4 fw-bold text-primary lh-1 tracking-tight" id="sidebarMenuLabel">FixDesk</span>
+                <small class="d-block text-body-secondary" style="font-size: 11px;">ระบบจัดการงานซ่อม</small>
+            </div>
+        </a>
+        <button type="button" class="btn-close d-lg-none" data-bs-dismiss="offcanvas" data-bs-target="#sidebarMenu" aria-label="Close"></button>
+    </div>
 
     <hr class="my-3 opacity-15">
 

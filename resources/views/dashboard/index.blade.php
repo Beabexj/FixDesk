@@ -79,10 +79,10 @@
     </div>
 
     <!-- Main Section: Recent Repairs & Customers -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <!-- Recent Repairs Table (2 Cols) -->
-        <div class="lg:col-span-2 bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
-            <div class="p-5 border-b border-slate-100 flex items-center justify-between">
+    <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+        <!-- Recent Repairs Table (2 Cols on XL) -->
+        <div class="xl:col-span-2 bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+            <div class="p-4 sm:p-5 border-b border-slate-100 flex items-center justify-between">
                 <div>
                     <h2 class="font-bold text-slate-800 text-base">งานซ่อมล่าสุด</h2>
                     <p class="text-xs text-slate-400 mt-0.5">รายการซ่อมที่มีการบันทึกและอัปเดตสถานะล่าสุด</p>
@@ -99,35 +99,39 @@
                 <table class="w-full text-left text-sm">
                     <thead class="bg-slate-50/80 text-xs text-slate-500 uppercase font-semibold border-b border-slate-100">
                         <tr>
-                            <th class="px-5 py-3">รหัสงาน</th>
-                            <th class="px-4 py-3">ลูกค้า</th>
-                            <th class="px-4 py-3">อุปกรณ์ / รุ่น</th>
-                            <th class="px-4 py-3">สถานะ</th>
-                            <th class="px-5 py-3 text-right">การกระทำ</th>
+                            <th class="px-4 py-3">รหัสงาน</th>
+                            <th class="px-3.5 py-3">ลูกค้า</th>
+                            <th class="px-3.5 py-3">อุปกรณ์ / รุ่น</th>
+                            <th class="px-3.5 py-3">สถานะ</th>
+                            <th class="px-4 py-3 text-right">การกระทำ</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-100">
                         @forelse($recent_repairs as $repair)
                             <tr class="hover:bg-slate-50/60 transition-colors">
-                                <td class="px-5 py-3.5 font-bold text-slate-800 whitespace-nowrap">
+                                <td class="px-4 py-3 font-bold text-slate-800 whitespace-nowrap">
                                     <a href="{{ route('repairs.show', $repair) }}" class="text-blue-600 hover:underline">
                                         {{ $repair->repair_code }}
                                     </a>
                                 </td>
-                                <td class="px-4 py-3.5 whitespace-nowrap">
-                                    <div class="font-medium text-slate-700">{{ $repair->customer->name ?? '-' }}</div>
+                                <td class="px-3.5 py-3 whitespace-nowrap">
+                                    <div class="font-medium text-slate-700 truncate max-w-[120px]">{{ $repair->customer->name ?? '-' }}</div>
                                     <div class="text-xs text-slate-400">{{ $repair->customer->phone ?? '' }}</div>
                                 </td>
-                                <td class="px-4 py-3.5">
-                                    <div class="font-medium text-slate-700">{{ $repair->device_type }} {{ $repair->brand }} {{ $repair->model }}</div>
-                                    <div class="text-xs text-slate-400 truncate max-w-xs">{{ $repair->problem_description }}</div>
+                                <td class="px-3.5 py-3">
+                                    <div class="font-medium text-slate-700 truncate max-w-[180px] sm:max-w-[220px]" title="{{ $repair->device_type }} {{ $repair->brand }} {{ $repair->model }}">
+                                        {{ $repair->device_type }} {{ $repair->brand }} {{ $repair->model }}
+                                    </div>
+                                    <div class="text-xs text-slate-400 truncate max-w-[180px] sm:max-w-[220px]" title="{{ $repair->problem_description }}">
+                                        {{ $repair->problem_description }}
+                                    </div>
                                 </td>
-                                <td class="px-4 py-3.5 whitespace-nowrap">
-                                    <x-status-badge :status="$repair->status" />
+                                <td class="px-3.5 py-3 whitespace-nowrap">
+                                    <x-status-badge :status="$repair->status" size="xs" />
                                 </td>
-                                <td class="px-5 py-3.5 text-right whitespace-nowrap">
-                                    <x-button variant="secondary" size="sm" href="{{ route('repairs.show', $repair) }}">
-                                        ดูรายละเอียด
+                                <td class="px-4 py-3 text-right whitespace-nowrap">
+                                    <x-button variant="outline" size="sm" href="{{ route('repairs.show', $repair) }}">
+                                        ดูข้อมูล
                                     </x-button>
                                 </td>
                             </tr>

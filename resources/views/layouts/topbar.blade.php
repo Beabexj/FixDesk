@@ -17,14 +17,10 @@
 
     <div class="flex items-center gap-2 sm:gap-3">
         <!-- Quick Action button -->
-        <a href="{{ route('repairs.create') }}"
-           class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs sm:text-sm font-medium transition-colors shadow-sm shadow-blue-500/20">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-            </svg>
+        <x-button variant="primary" size="sm" href="{{ route('repairs.create') }}" icon="bi-plus-lg">
             <span class="hidden sm:inline">เปิดใบแจ้งซ่อมใหม่</span>
             <span class="sm:hidden">ใบแจ้งซ่อม</span>
-        </a>
+        </x-button>
 
         <!-- User Profile Pill -->
         @auth

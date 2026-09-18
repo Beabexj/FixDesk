@@ -11,13 +11,9 @@
             <p class="text-xs text-slate-500 mt-1">รายชื่อผู้ดูแลระบบ, เจ้าหน้าที่รับเครื่อง, และช่างผู้ชำนาญการ</p>
         </div>
 
-        <button onclick="document.getElementById('createUserModal').classList.remove('hidden')"
-                class="inline-flex items-center gap-1.5 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-medium transition-colors shadow-sm shadow-blue-500/20 whitespace-nowrap">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-            </svg>
+        <x-button variant="primary" icon="bi-plus-lg" onclick="document.getElementById('createUserModal').classList.remove('hidden')">
             เพิ่มผู้ใช้งาน / ช่าง
-        </button>
+        </x-button>
     </div>
 
     <!-- Users Table -->
@@ -153,9 +149,12 @@
             </div>
 
             <div class="pt-4 flex justify-end gap-2 border-t border-slate-100">
-                <button type="button" onclick="document.getElementById('createUserModal').classList.add('hidden')"
-                        class="px-4 py-2 bg-slate-100 text-slate-700 rounded-xl text-xs font-medium">ยกเลิก</button>
-                <button type="submit" class="px-5 py-2 bg-blue-600 text-white rounded-xl text-xs font-semibold">บันทึก</button>
+                <x-button variant="secondary" size="sm" type="button" onclick="document.getElementById('createUserModal').classList.add('hidden')">
+                    ยกเลิก
+                </x-button>
+                <x-button variant="primary" size="sm" type="submit">
+                    บันทึก
+                </x-button>
             </div>
         </form>
     </div>

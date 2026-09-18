@@ -123,14 +123,12 @@
                                     <div class="text-xs text-slate-400 truncate max-w-xs">{{ $repair->problem_description }}</div>
                                 </td>
                                 <td class="px-4 py-3.5 whitespace-nowrap">
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold border {{ $repair->status_badge_class }}">
-                                        {{ $repair->status_label }}
-                                    </span>
+                                    <x-status-badge :status="$repair->status" />
                                 </td>
                                 <td class="px-5 py-3.5 text-right whitespace-nowrap">
-                                    <a href="{{ route('repairs.show', $repair) }}" class="text-xs font-semibold px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors">
+                                    <x-button variant="secondary" size="sm" href="{{ route('repairs.show', $repair) }}">
                                         ดูรายละเอียด
-                                    </a>
+                                    </x-button>
                                 </td>
                             </tr>
                         @empty

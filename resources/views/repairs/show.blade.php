@@ -9,23 +9,21 @@
         <div>
             <div class="flex items-center gap-3">
                 <h2 class="text-2xl font-bold text-slate-800">{{ $repair->repair_code }}</h2>
-                <span class="px-3 py-1 rounded-full text-xs font-semibold border {{ $repair->status_badge_class }}">
-                    {{ $repair->status_label }}
-                </span>
+                <x-status-badge :status="$repair->status" size="md" />
             </div>
             <p class="text-xs text-slate-500 mt-1">รับเครื่องวันที่: {{ $repair->received_at ? $repair->received_at->format('d/m/Y H:i น.') : '-' }}</p>
         </div>
 
         <div class="flex items-center gap-2">
-            <a href="{{ route('repairs.index') }}" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-medium transition-colors">
-                &larr; กลับหน้ารายการ
-            </a>
-            <a href="{{ route('repairs.edit', $repair) }}" class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white rounded-xl text-xs font-semibold transition-colors shadow-sm">
+            <x-button variant="secondary" size="sm" href="{{ route('repairs.index') }}" icon="bi-arrow-left">
+                กลับหน้ารายการ
+            </x-button>
+            <x-button variant="outline" size="sm" href="{{ route('repairs.edit', $repair) }}" icon="bi-pencil">
                 แก้ไขใบซ่อม
-            </a>
-            <button onclick="window.print()" class="px-3 py-2 bg-slate-800 hover:bg-slate-900 text-white rounded-xl text-xs font-semibold transition-colors">
+            </x-button>
+            <x-button variant="dark" size="sm" icon="bi-printer" onclick="window.print()">
                 พิมพ์ใบรับซ่อม
-            </button>
+            </x-button>
         </div>
     </div>
 

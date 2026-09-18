@@ -9,15 +9,15 @@
         <div>
             <div class="flex items-center gap-3">
                 <h2 class="text-xl font-bold text-slate-800">{{ $customer->name }}</h2>
-                <a href="{{ route('customers.edit', $customer) }}" class="text-xs px-2.5 py-1 bg-amber-50 text-amber-700 rounded-lg hover:bg-amber-100 font-medium">
+                <x-button variant="outline" size="sm" href="{{ route('customers.edit', $customer) }}" icon="bi-pencil">
                     แก้ไขข้อมูล
-                </a>
+                </x-button>
             </div>
             <p class="text-xs text-slate-500 mt-1">ประวัติและข้อมูลการส่งซ่อมของลูกค้า</p>
         </div>
-        <a href="{{ route('customers.index') }}" class="text-xs font-semibold text-slate-600 hover:text-slate-800">
-            &larr; กลับหน้ารายการลูกค้า
-        </a>
+        <x-button variant="secondary" size="sm" href="{{ route('customers.index') }}" icon="bi-arrow-left">
+            กลับหน้ารายการลูกค้า
+        </x-button>
     </div>
 
     <!-- Customer Overview Cards -->
@@ -78,17 +78,15 @@
                                 {{ $repair->technician->name ?? 'ยังไม่ระบุ' }}
                             </td>
                             <td class="px-4 py-3.5 whitespace-nowrap">
-                                <span class="px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-700">
-                                    {{ $repair->status }}
-                                </span>
+                                <x-status-badge :status="$repair->status" />
                             </td>
                             <td class="px-4 py-3.5 font-semibold text-slate-800 whitespace-nowrap">
                                 ฿{{ number_format($repair->total_cost ?: $repair->estimated_cost, 2) }}
                             </td>
                             <td class="px-5 py-3.5 text-right whitespace-nowrap">
-                                <a href="{{ route('repairs.show', $repair) }}" class="text-xs font-medium px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700">
+                                <x-button variant="outline" size="sm" href="{{ route('repairs.show', $repair) }}">
                                     ดูใบซ่อม
-                                </a>
+                                </x-button>
                             </td>
                         </tr>
                     @empty

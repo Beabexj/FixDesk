@@ -11,13 +11,9 @@
             <p class="text-xs text-slate-500 mt-1">ติดตามสถานะงานซ่อมอุปกรณ์ทุกรายการ</p>
         </div>
 
-        <a href="{{ route('repairs.create') }}"
-           class="inline-flex items-center gap-1.5 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-medium transition-colors shadow-sm shadow-blue-500/20 whitespace-nowrap">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-            </svg>
+        <x-button variant="primary" icon="bi-plus-lg" href="{{ route('repairs.create') }}">
             เปิดใบแจ้งซ่อมใหม่
-        </a>
+        </x-button>
     </div>
 
     <!-- Filter & Search Bar -->
@@ -53,12 +49,12 @@
             </div>
 
             <div class="flex items-center gap-2">
-                <button type="submit" class="flex-1 py-2 px-4 bg-slate-800 hover:bg-slate-900 text-white rounded-xl text-sm font-medium transition-colors">
+                <x-button variant="dark" type="submit" icon="bi-funnel" class="flex-1">
                     กรองข้อมูล
-                </button>
-                <a href="{{ route('repairs.index') }}" class="py-2 px-3 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-xl text-sm font-medium transition-colors">
+                </x-button>
+                <x-button variant="secondary" href="{{ route('repairs.index') }}">
                     ล้างค่า
-                </a>
+                </x-button>
             </div>
         </form>
     </div>
@@ -99,39 +95,21 @@
                                 {{ $repair->technician->name ?? 'ยังไม่ได้มอบหมาย' }}
                             </td>
                             <td class="px-4 py-4 whitespace-nowrap">
-                                @php
-                                    $priorityClasses = [
-                                        'urgent' => 'bg-rose-50 text-rose-700 border-rose-200',
-                                        'high' => 'bg-orange-50 text-orange-700 border-orange-200',
-                                        'normal' => 'bg-blue-50 text-blue-700 border-blue-200',
-                                        'low' => 'bg-slate-100 text-slate-600 border-slate-200',
-                                    ];
-                                    $priorityLabels = [
-                                        'urgent' => 'ด่วนที่สุด',
-                                        'high' => 'ด่วน',
-                                        'normal' => 'ปกติ',
-                                        'low' => 'ต่ำ',
-                                    ];
-                                @endphp
-                                <span class="px-2 py-0.5 rounded-full text-[11px] font-medium border {{ $priorityClasses[$repair->priority] ?? '' }}">
-                                    {{ $priorityLabels[$repair->priority] ?? $repair->priority }}
-                                </span>
+                                <x-priority-badge :priority="$repair->priority" />
                             </td>
                             <td class="px-4 py-4 whitespace-nowrap">
-                                <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold border {{ $repair->status_badge_class }}">
-                                    {{ $repair->status_label }}
-                                </span>
+                                <x-status-badge :status="$repair->status" />
                             </td>
                             <td class="px-4 py-4 text-xs text-slate-500 whitespace-nowrap">
                                 {{ $repair->received_at ? $repair->received_at->format('d/m/Y H:i') : '-' }}
                             </td>
-                            <td class="px-5 py-4 text-right whitespace-nowrap space-x-2">
-                                <a href="{{ route('repairs.show', $repair) }}" class="text-xs font-semibold px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700">
+                            <td class="px-5 py-4 text-right whitespace-nowrap space-x-1.5">
+                                <x-button variant="outline" size="sm" href="{{ route('repairs.show', $repair) }}">
                                     รายละเอียด
-                                </a>
-                                <a href="{{ route('repairs.edit', $repair) }}" class="text-xs font-semibold px-2.5 py-1.5 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-700">
+                                </x-button>
+                                <x-button variant="secondary" size="sm" href="{{ route('repairs.edit', $repair) }}">
                                     แก้ไข
-                                </a>
+                                </x-button>
                             </td>
                         </tr>
                     @empty

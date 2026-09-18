@@ -143,12 +143,12 @@
 
             <!-- Actions -->
             <div class="pt-4 flex justify-end gap-3 border-t border-slate-100">
-                <a href="{{ route('repairs.show', $repair) }}" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-sm font-medium transition-colors">
+                <x-button variant="secondary" href="{{ route('repairs.show', $repair) }}">
                     ยกเลิก
-                </a>
-                <button type="submit" class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-semibold transition-colors shadow-sm shadow-blue-500/20">
+                </x-button>
+                <x-button variant="primary" type="submit">
                     บันทึกการแก้ไข
-                </button>
+                </x-button>
             </div>
         </form>
     </div>

@@ -23,13 +23,9 @@
                 </div>
             </form>
 
-            <a href="{{ route('customers.create') }}"
-               class="inline-flex items-center gap-1.5 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-medium transition-colors shadow-sm shadow-blue-500/20 whitespace-nowrap">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                </svg>
+            <x-button variant="primary" icon="bi-person-plus-fill" href="{{ route('customers.create') }}">
                 เพิ่มลูกค้าใหม่
-            </a>
+            </x-button>
         </div>
     </div>
 
@@ -66,13 +62,13 @@
                                     {{ $customer->repairs_count }} รายการ
                                 </span>
                             </td>
-                            <td class="px-6 py-4 text-right whitespace-nowrap space-x-2">
-                                <a href="{{ route('customers.show', $customer) }}" class="text-xs font-medium px-2.5 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors">
+                            <td class="px-6 py-4 text-right whitespace-nowrap space-x-1.5">
+                                <x-button variant="outline" size="sm" href="{{ route('customers.show', $customer) }}">
                                     ดูข้อมูล
-                                </a>
-                                <a href="{{ route('customers.edit', $customer) }}" class="text-xs font-medium px-2.5 py-1.5 rounded-lg bg-amber-50 hover:bg-amber-100 text-amber-700 transition-colors">
+                                </x-button>
+                                <x-button variant="secondary" size="sm" href="{{ route('customers.edit', $customer) }}">
                                     แก้ไข
-                                </a>
+                                </x-button>
                             </td>
                         </tr>
                     @empty

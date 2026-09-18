@@ -10,9 +10,9 @@
             <h2 class="text-xl font-bold text-slate-800">รายงานและสถิติภาพรวม</h2>
             <p class="text-xs text-slate-500 mt-1">สรุปข้อมูลผลการดำเนินงาน ยอดรายได้ และสถิติงานซ่อม</p>
         </div>
-        <button onclick="window.print()" class="px-3.5 py-2 bg-slate-800 hover:bg-slate-900 text-white rounded-xl text-xs font-semibold">
+        <x-button variant="dark" size="sm" icon="bi-printer" onclick="window.print()">
             พิมพ์รายงานสรุป
-        </button>
+        </x-button>
     </div>
 
     <!-- Revenue Summary Cards -->

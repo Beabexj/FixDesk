@@ -1,4 +1,4 @@
-@import 'bootstrap/dist/css/bootstrap.min.css';
+@import 'bootstrap/dist/css/bootstrap.min.css' layer(bootstrap);
 @import 'bootstrap-icons/font/bootstrap-icons.css';
 @import 'tailwindcss';
 
@@ -8,6 +8,14 @@
 
 @theme {
     --font-sans: 'Prompt', 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Fix Bootstrap reboot resetting button border-radius to 0 */
+button,
+[type='button'],
+[type='reset'],
+[type='submit'] {
+    border-radius: var(--radius-xl, 0.75rem);
 }
 
 .hover-bg:hover {

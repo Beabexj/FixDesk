@@ -8,16 +8,17 @@ use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class RepairController extends Controller
 {
     /**
-     * Display a listing of repair orders.
+     * Display a listing of repair orders with filtering and search.
      */
     public function index(Request $request): View
     {
-        $query = Repair::query()->with(['customer', 'technician']);
+        $query = Repair::query()->with(['customer', 'technician'])->latest('received_at');
 
         if ($request->filled('status')) {
             $query->where('status', $request->input('status'));
@@ -27,11 +28,14 @@ class RepairController extends Controller
             $query->where('priority', $request->input('priority'));
         }
 
+        if ($request->filled('technician_id')) {
+            $query->where('technician_id', $request->input('technician_id'));
+        }
+
         if ($request->filled('search')) {
             $search = $request->input('search');
             $query->where(function ($q) use ($search) {
                 $q->where('repair_code', 'like', "%{$search}%")
-                    ->orWhere('device_type', 'like', "%{$search}%")
                     ->orWhere('brand', 'like', "%{$search}%")
                     ->orWhere('model', 'like', "%{$search}%")
                     ->orWhere('serial_number', 'like', "%{$search}%")
@@ -42,7 +46,7 @@ class RepairController extends Controller
             });
         }
 
-        $repairs = $query->latest('received_at')->paginate(10)->withQueryString();
+        $repairs = $query->paginate(10)->withQueryString();
 
         return view('repairs.index', compact('repairs'));
     }
@@ -72,11 +76,16 @@ class RepairController extends Controller
             'serial_number' => ['nullable', 'string', 'max:100'],
             'problem_description' => ['required', 'string'],
             'accessories' => ['nullable', 'string'],
+            'device_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:5120'],
             'repair_notes' => ['nullable', 'string'],
             'priority' => ['required', 'in:low,normal,high,urgent'],
             'status' => ['required', 'in:received,inspection,in_progress,waiting_parts,completed,delivered,cancelled'],
             'estimated_cost' => ['nullable', 'numeric', 'min:0'],
         ]);
+
+        if ($request->hasFile('device_image')) {
+            $validated['device_image'] = $request->file('device_image')->store('repairs', 'public');
+        }
 
         $repairCode = 'FX-'.date('Ymd').'-'.strtoupper(Str::random(4));
         $validated['repair_code'] = $repairCode;
@@ -126,12 +135,25 @@ class RepairController extends Controller
             'serial_number' => ['nullable', 'string', 'max:100'],
             'problem_description' => ['required', 'string'],
             'accessories' => ['nullable', 'string'],
+            'device_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:5120'],
             'repair_notes' => ['nullable', 'string'],
             'priority' => ['required', 'in:low,normal,high,urgent'],
             'status' => ['required', 'in:received,inspection,in_progress,waiting_parts,completed,delivered,cancelled'],
             'estimated_cost' => ['nullable', 'numeric', 'min:0'],
             'total_cost' => ['nullable', 'numeric', 'min:0'],
         ]);
+
+        if ($request->hasFile('device_image')) {
+            if ($repair->device_image && Storage::disk('public')->exists($repair->device_image)) {
+                Storage::disk('public')->delete($repair->device_image);
+            }
+            $validated['device_image'] = $request->file('device_image')->store('repairs', 'public');
+        } elseif ($request->boolean('clear_device_image')) {
+            if ($repair->device_image && Storage::disk('public')->exists($repair->device_image)) {
+                Storage::disk('public')->delete($repair->device_image);
+            }
+            $validated['device_image'] = null;
+        }
 
         if (in_array($validated['status'], ['completed', 'delivered']) && ! $repair->completed_at) {
             $validated['completed_at'] = now();
@@ -148,6 +170,10 @@ class RepairController extends Controller
      */
     public function destroy(Repair $repair): RedirectResponse
     {
+        if ($repair->device_image && Storage::disk('public')->exists($repair->device_image)) {
+            Storage::disk('public')->delete($repair->device_image);
+        }
+
         $repair->delete();
 
         return redirect()->route('repairs.index')

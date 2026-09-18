@@ -15,7 +15,7 @@
     </div>
 
     <div class="bg-white rounded-2xl border border-slate-200 shadow-xs p-6">
-        <form method="POST" action="{{ route('repairs.store') }}" class="space-y-6">
+        <form method="POST" action="{{ route('repairs.store') }}" enctype="multipart/form-data" class="space-y-6">
             @csrf
 
             <!-- Section 1: Customer & Technician Selection -->
@@ -152,6 +152,31 @@
                 </div>
             </div>
 
+            <!-- Section 4: Device Photo (สภาพเครื่อง) -->
+            <div>
+                <h3 class="text-sm font-bold text-slate-800 border-b border-slate-100 pb-2 mb-4">4. รูปถ่ายสภาพเครื่อง (ก่อนซ่อม)</h3>
+                <div class="space-y-3">
+                    <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">แนบรูปถ่ายอุปกรณ์ / รอยตำหนิ / สภาพตอนรับเครื่อง</label>
+                    <div class="flex flex-col sm:flex-row items-start gap-4">
+                        <!-- Upload Drag/Drop Box -->
+                        <label class="flex-1 w-full flex flex-col items-center justify-center p-6 border-2 border-dashed border-slate-200 hover:border-blue-400 rounded-2xl cursor-pointer bg-slate-50/50 hover:bg-blue-50/20 transition-all text-center">
+                            <i class="bi bi-camera fs-2 text-slate-400 mb-2"></i>
+                            <span class="text-sm font-semibold text-slate-700">คลิกเพื่อเลือกไฟล์รูปภาพอุปกรณ์</span>
+                            <span class="text-xs text-slate-400 mt-1">รองรับไฟล์ JPG, PNG, WEBP สูงสุด 5MB</span>
+                            <input type="file" id="deviceImageInput" name="device_image" accept="image/*" onchange="previewDeviceImage(event)" class="hidden">
+                        </label>
+
+                        <!-- Preview Box -->
+                        <div id="deviceImagePreviewContainer" class="hidden w-full sm:w-48 h-36 rounded-xl border border-slate-200 overflow-hidden relative shadow-xs flex-shrink-0 bg-slate-100">
+                            <img id="deviceImagePreviewImg" src="" alt="Device Preview" class="w-full h-full object-cover">
+                            <button type="button" onclick="clearDeviceImagePreview()" class="absolute top-2 right-2 w-6 h-6 rounded-full bg-slate-900/75 text-white flex items-center justify-center text-xs hover:bg-rose-600 transition-colors shadow-sm">
+                                &times;
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Buttons -->
             <div class="pt-4 flex justify-end gap-3 border-t border-slate-100">
                 <x-button variant="secondary" href="{{ route('repairs.index') }}">
@@ -164,4 +189,29 @@
         </form>
     </div>
 </div>
+
+<script>
+function previewDeviceImage(event) {
+    const input = event.target;
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const container = document.getElementById('deviceImagePreviewContainer');
+            const img = document.getElementById('deviceImagePreviewImg');
+            img.src = e.target.result;
+            container.classList.remove('hidden');
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+function clearDeviceImagePreview() {
+    const input = document.getElementById('deviceImageInput');
+    const container = document.getElementById('deviceImagePreviewContainer');
+    const img = document.getElementById('deviceImagePreviewImg');
+    input.value = '';
+    img.src = '';
+    container.classList.add('hidden');
+}
+</script>
 @endsection

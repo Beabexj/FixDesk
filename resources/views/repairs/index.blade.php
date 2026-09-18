@@ -88,11 +88,27 @@
                                 <div class="text-xs text-slate-400">{{ $repair->customer->phone ?? '' }}</div>
                             </td>
                             <td class="px-4 py-4 max-w-xs">
-                                <div class="font-medium text-slate-800">{{ $repair->device_type }} {{ $repair->brand }} {{ $repair->model }}</div>
-                                <div class="text-xs text-slate-400 truncate">{{ $repair->problem_description }}</div>
+                                <div class="flex items-center gap-2.5">
+                                    @if($repair->device_image_url)
+                                        <img src="{{ $repair->device_image_url }}" alt="รูปเครื่อง" class="w-9 h-9 rounded-lg object-cover border border-slate-200 flex-shrink-0 shadow-2xs">
+                                    @endif
+                                    <div class="min-w-0">
+                                        <div class="font-medium text-slate-800 truncate">{{ $repair->device_type }} {{ $repair->brand }} {{ $repair->model }}</div>
+                                        <div class="text-xs text-slate-400 truncate">{{ $repair->problem_description }}</div>
+                                    </div>
+                                </div>
                             </td>
                             <td class="px-4 py-4 text-xs text-slate-600 whitespace-nowrap">
-                                {{ $repair->technician->name ?? 'ยังไม่ได้มอบหมาย' }}
+                                @if($repair->technician)
+                                    <div class="flex items-center gap-1.5">
+                                        @if($repair->technician->avatar_url)
+                                            <img src="{{ $repair->technician->avatar_url }}" alt="{{ $repair->technician->name }}" class="w-5 h-5 rounded-full object-cover border border-slate-200">
+                                        @endif
+                                        <span>{{ $repair->technician->name }}</span>
+                                    </div>
+                                @else
+                                    <span class="text-slate-400">ยังไม่ได้มอบหมาย</span>
+                                @endif
                             </td>
                             <td class="px-4 py-4 whitespace-nowrap">
                                 <x-priority-badge :priority="$repair->priority" />

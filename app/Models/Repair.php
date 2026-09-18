@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Storage;
 
 class Repair extends Model
 {
@@ -40,6 +41,7 @@ class Repair extends Model
         'serial_number',
         'problem_description',
         'accessories',
+        'device_image',
         'repair_notes',
         'status',
         'priority',
@@ -135,5 +137,14 @@ class Repair extends Model
     public function items(): HasMany
     {
         return $this->hasMany(RepairItem::class);
+    }
+
+    public function getDeviceImageUrlAttribute(): ?string
+    {
+        if ($this->device_image && Storage::disk('public')->exists($this->device_image)) {
+            return Storage::disk('public')->url($this->device_image);
+        }
+
+        return null;
     }
 }

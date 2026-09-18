@@ -69,6 +69,31 @@
                 @endif
             </div>
 
+            <!-- Device Photo Card (สภาพเครื่อง) -->
+            @if($repair->device_image_url)
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-xs p-6">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+                        <div class="flex items-center gap-2">
+                            <h3 class="text-sm font-bold text-slate-800">รูปภาพสภาพเครื่องตอนรับซ่อม</h3>
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 border border-blue-100">
+                                <i class="bi bi-camera me-1"></i> มีรูปภาพแนบ
+                            </span>
+                        </div>
+                        <a href="{{ $repair->device_image_url }}" target="_blank" class="text-xs text-blue-600 hover:text-blue-800 font-semibold inline-flex items-center gap-1">
+                            <i class="bi bi-arrows-fullscreen"></i> ดูรูปภาพขนาดเต็ม
+                        </a>
+                    </div>
+                    <div class="rounded-xl overflow-hidden border border-slate-200 bg-slate-900/5 max-h-[420px] flex items-center justify-center group relative">
+                        <img src="{{ $repair->device_image_url }}" alt="สภาพเครื่อง {{ $repair->repair_code }}" class="max-h-[420px] w-auto max-w-full object-contain mx-auto">
+                        <a href="{{ $repair->device_image_url }}" target="_blank" class="absolute inset-0 bg-slate-950/20 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+                            <span class="bg-slate-900/80 text-white text-xs font-semibold px-3 py-1.5 rounded-lg shadow-sm">
+                                <i class="bi bi-zoom-in me-1"></i> คลิกเพื่อเปิดดูรูปขนาดใหญ่
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            @endif
+
             <!-- Items / Parts & Labor Section -->
             <div class="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
                 <div class="p-5 border-b border-slate-100 flex items-center justify-between">
@@ -131,9 +156,13 @@
                 <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 border-b border-slate-100 pb-3 mb-3">ช่างผู้รับผิดชอบ</h4>
                 @if($repair->technician)
                     <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full bg-indigo-50 text-indigo-600 font-bold flex items-center justify-center text-sm">
-                            {{ mb_substr($repair->technician->name, 0, 1) }}
-                        </div>
+                        @if($repair->technician->avatar_url)
+                            <img src="{{ $repair->technician->avatar_url }}" alt="{{ $repair->technician->name }}" class="w-10 h-10 rounded-full object-cover border border-slate-200 shadow-2xs">
+                        @else
+                            <div class="w-10 h-10 rounded-full bg-indigo-50 text-indigo-600 font-bold flex items-center justify-center text-sm border border-indigo-100">
+                                {{ mb_substr($repair->technician->name, 0, 1) }}
+                            </div>
+                        @endif
                         <div>
                             <div class="text-sm font-semibold text-slate-800">{{ $repair->technician->name }}</div>
                             <div class="text-xs text-slate-400">{{ $repair->technician->phone ?? 'เบอร์โทรภายใน' }}</div>

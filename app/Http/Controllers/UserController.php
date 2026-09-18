@@ -7,6 +7,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
 class UserController extends Controller
@@ -47,7 +48,12 @@ class UserController extends Controller
             'password' => ['required', 'string', 'min:6'],
             'role' => ['required', 'in:admin,technician,staff'],
             'phone' => ['nullable', 'string', 'max:50'],
+            'avatar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
         ]);
+
+        if ($request->hasFile('avatar')) {
+            $validated['avatar'] = $request->file('avatar')->store('avatars', 'public');
+        }
 
         $validated['password'] = Hash::make($validated['password']);
         $validated['is_active'] = true;
@@ -69,8 +75,16 @@ class UserController extends Controller
             'password' => ['nullable', 'string', 'min:6'],
             'role' => ['required', 'in:admin,technician,staff'],
             'phone' => ['nullable', 'string', 'max:50'],
+            'avatar' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
             'is_active' => ['nullable', 'boolean'],
         ]);
+
+        if ($request->hasFile('avatar')) {
+            if ($user->avatar && Storage::disk('public')->exists($user->avatar)) {
+                Storage::disk('public')->delete($user->avatar);
+            }
+            $validated['avatar'] = $request->file('avatar')->store('avatars', 'public');
+        }
 
         if (! empty($validated['password'])) {
             $validated['password'] = Hash::make($validated['password']);
@@ -91,6 +105,10 @@ class UserController extends Controller
      */
     public function destroy(User $user): RedirectResponse
     {
+        if ($user->avatar && Storage::disk('public')->exists($user->avatar)) {
+            Storage::disk('public')->delete($user->avatar);
+        }
+
         $user->delete();
 
         return redirect()->route('users.index')

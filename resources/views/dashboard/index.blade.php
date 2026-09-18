@@ -119,11 +119,18 @@
                                     <div class="text-xs text-slate-400">{{ $repair->customer->phone ?? '' }}</div>
                                 </td>
                                 <td class="px-3.5 py-3">
-                                    <div class="font-medium text-slate-700 truncate max-w-[220px] 2xl:max-w-[320px]" title="{{ $repair->device_type }} {{ $repair->brand }} {{ $repair->model }}">
-                                        {{ $repair->device_type }} {{ $repair->brand }} {{ $repair->model }}
-                                    </div>
-                                    <div class="text-xs text-slate-400 truncate max-w-[220px] 2xl:max-w-[320px]" title="{{ $repair->problem_description }}">
-                                        {{ $repair->problem_description }}
+                                    <div class="flex items-center gap-2">
+                                        @if($repair->device_image_url)
+                                            <img src="{{ $repair->device_image_url }}" alt="รูปเครื่อง" class="w-8 h-8 rounded-lg object-cover border border-slate-200 flex-shrink-0 shadow-2xs">
+                                        @endif
+                                        <div class="min-w-0">
+                                            <div class="font-medium text-slate-700 truncate max-w-[200px] 2xl:max-w-[300px]" title="{{ $repair->device_type }} {{ $repair->brand }} {{ $repair->model }}">
+                                                {{ $repair->device_type }} {{ $repair->brand }} {{ $repair->model }}
+                                            </div>
+                                            <div class="text-xs text-slate-400 truncate max-w-[200px] 2xl:max-w-[300px]" title="{{ $repair->problem_description }}">
+                                                {{ $repair->problem_description }}
+                                            </div>
+                                        </div>
                                     </div>
                                 </td>
                                 <td class="px-3.5 py-3 whitespace-nowrap">

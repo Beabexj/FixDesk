@@ -24,11 +24,20 @@
 
         <!-- User Profile Pill -->
         @auth
-            <div class="hidden md:flex items-center gap-2 pl-3 border-l border-slate-200">
-                <span class="text-xs text-slate-600">สวัสดี, <strong class="text-slate-800">{{ auth()->user()->name }}</strong></span>
-                <span class="px-2 py-0.5 rounded-full text-[11px] font-semibold {{ auth()->user()->role === 'admin' ? 'bg-purple-100 text-purple-700' : 'bg-blue-100 text-blue-700' }}">
-                    {{ auth()->user()->role === 'admin' ? 'Admin' : 'ช่างซ่อม' }}
-                </span>
+            <div class="hidden md:flex items-center gap-2.5 pl-3 border-l border-slate-200">
+                @if(auth()->user()->avatar_url)
+                    <img src="{{ auth()->user()->avatar_url }}" alt="{{ auth()->user()->name }}" class="w-7 h-7 rounded-full object-cover border border-slate-200 shadow-2xs">
+                @else
+                    <div class="w-7 h-7 rounded-full bg-blue-100 text-blue-700 font-bold flex items-center justify-center text-xs">
+                        {{ mb_substr(auth()->user()->name, 0, 1) }}
+                    </div>
+                @endif
+                <div class="flex items-center gap-1.5">
+                    <span class="text-xs text-slate-600">สวัสดี, <strong class="text-slate-800">{{ auth()->user()->name }}</strong></span>
+                    <span class="px-2 py-0.5 rounded-full text-[11px] font-semibold {{ auth()->user()->role === 'admin' ? 'bg-purple-100 text-purple-700' : 'bg-blue-100 text-blue-700' }}">
+                        {{ auth()->user()->role === 'admin' ? 'Admin' : 'ช่างซ่อม' }}
+                    </span>
+                </div>
             </div>
         @endauth
     </div>

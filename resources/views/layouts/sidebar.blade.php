@@ -71,9 +71,13 @@
     <!-- Bottom User Dropdown Menu -->
     <div class="dropdown dropup mt-auto flex-shrink-0">
         <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle p-2 rounded-3 hover-bg" data-bs-toggle="dropdown" aria-expanded="false">
-            <div class="rounded-circle bg-primary-subtle text-primary border border-primary-subtle d-flex align-items-center justify-content-center me-2 fw-bold" style="width: 36px; height: 36px; font-size: 13px;">
-                {{ mb_substr(auth()->user()?->name ?? 'U', 0, 2) }}
-            </div>
+            @if(auth()->user()?->avatar_url)
+                <img src="{{ auth()->user()->avatar_url }}" alt="{{ auth()->user()->name }}" class="rounded-circle object-fit-cover me-2 border flex-shrink-0 shadow-2xs" style="width: 36px; height: 36px;">
+            @else
+                <div class="rounded-circle bg-primary-subtle text-primary border border-primary-subtle d-flex align-items-center justify-content-center me-2 fw-bold flex-shrink-0" style="width: 36px; height: 36px; font-size: 13px;">
+                    {{ mb_substr(auth()->user()?->name ?? 'U', 0, 2) }}
+                </div>
+            @endif
             <div class="d-flex flex-column text-start me-auto overflow-hidden pe-2" style="line-height: 1.25;">
                 <strong class="text-truncate" style="font-size: 13.5px; max-width: 145px;">{{ auth()->user()?->name ?? 'ผู้ใช้งาน' }}</strong>
                 <small class="text-body-secondary text-truncate" style="font-size: 11px;">

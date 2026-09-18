@@ -15,7 +15,7 @@
     </div>
 
     <div class="bg-white rounded-2xl border border-slate-200 shadow-xs p-6">
-        <form method="POST" action="{{ route('repairs.update', $repair) }}" class="space-y-6">
+        <form method="POST" action="{{ route('repairs.update', $repair) }}" enctype="multipart/form-data" class="space-y-6">
             @csrf
             @method('PUT')
 
@@ -141,6 +141,56 @@
                 </div>
             </div>
 
+            <!-- Section 4: Device Photo (รูปถ่ายสภาพเครื่อง) -->
+            <div>
+                <h3 class="text-sm font-bold text-slate-800 border-b border-slate-100 pb-2 mb-4">4. รูปถ่ายสภาพเครื่อง</h3>
+                <div class="space-y-4">
+                    @if($repair->device_image_url)
+                        <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200">
+                            <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">รูปภาพปัจจุบันในระบบ</label>
+                            <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                                <a href="{{ $repair->device_image_url }}" target="_blank" class="block w-40 h-28 rounded-xl overflow-hidden border border-slate-300 shadow-xs relative group flex-shrink-0">
+                                    <img src="{{ $repair->device_image_url }}" alt="รูปภาพเครื่องปัจจุบัน" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200">
+                                    <div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 flex items-center justify-center text-white text-xs font-medium transition-opacity">
+                                        <i class="bi bi-arrows-fullscreen mr-1"></i> ดูรูปเต็ม
+                                    </div>
+                                </a>
+                                <div class="space-y-2">
+                                    <p class="text-xs text-slate-500">คลิกที่รูปภาพเพื่อเปิดดูภาพขนาดเต็มในแท็บใหม่</p>
+                                    <label class="inline-flex items-center gap-2 text-xs font-semibold text-rose-600 cursor-pointer bg-rose-50 hover:bg-rose-100 px-3 py-1.5 rounded-lg border border-rose-200 transition-colors">
+                                        <input type="checkbox" name="clear_device_image" value="1" class="rounded border-rose-300 text-rose-600 focus:ring-rose-500">
+                                        <span>ลบรูปภาพนี้ออกจากระบบ</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">
+                            {{ $repair->device_image_url ? 'อัปโหลดรูปภาพใหม่เพื่อแทนที่ (ถ้าต้องการเปลี่ยน)' : 'แนบรูปถ่ายอุปกรณ์ / สภาพตอนรับเครื่อง' }}
+                        </label>
+                        <div class="flex flex-col sm:flex-row items-start gap-4">
+                            <!-- Upload Box -->
+                            <label class="flex-1 w-full flex flex-col items-center justify-center p-6 border-2 border-dashed border-slate-200 hover:border-blue-400 rounded-2xl cursor-pointer bg-slate-50/50 hover:bg-blue-50/20 transition-all text-center">
+                                <i class="bi bi-cloud-arrow-up fs-2 text-slate-400 mb-2"></i>
+                                <span class="text-sm font-semibold text-slate-700">คลิกเพื่อเลือกไฟล์รูปภาพใหม่</span>
+                                <span class="text-xs text-slate-400 mt-1">รองรับไฟล์ JPG, PNG, WEBP สูงสุด 5MB</span>
+                                <input type="file" id="editDeviceImageInput" name="device_image" accept="image/*" onchange="previewEditDeviceImage(event)" class="hidden">
+                            </label>
+
+                            <!-- Preview Box -->
+                            <div id="editDeviceImagePreviewContainer" class="hidden w-full sm:w-48 h-36 rounded-xl border border-slate-200 overflow-hidden relative shadow-xs flex-shrink-0 bg-slate-100">
+                                <img id="editDeviceImagePreviewImg" src="" alt="New Device Preview" class="w-full h-full object-cover">
+                                <button type="button" onclick="clearEditDeviceImagePreview()" class="absolute top-2 right-2 w-6 h-6 rounded-full bg-slate-900/75 text-white flex items-center justify-center text-xs hover:bg-rose-600 transition-colors shadow-sm">
+                                    &times;
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Actions -->
             <div class="pt-4 flex justify-end gap-3 border-t border-slate-100">
                 <x-button variant="secondary" href="{{ route('repairs.show', $repair) }}">
@@ -153,4 +203,29 @@
         </form>
     </div>
 </div>
+
+<script>
+function previewEditDeviceImage(event) {
+    const input = event.target;
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const container = document.getElementById('editDeviceImagePreviewContainer');
+            const img = document.getElementById('editDeviceImagePreviewImg');
+            img.src = e.target.result;
+            container.classList.remove('hidden');
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+function clearEditDeviceImagePreview() {
+    const input = document.getElementById('editDeviceImageInput');
+    const container = document.getElementById('editDeviceImagePreviewContainer');
+    const img = document.getElementById('editDeviceImagePreviewImg');
+    input.value = '';
+    img.src = '';
+    container.classList.add('hidden');
+}
+</script>
 @endsection

@@ -36,9 +36,13 @@
                         <tr class="hover:bg-slate-50/70 transition-colors">
                             <td class="px-6 py-4 font-medium text-slate-800 whitespace-nowrap">
                                 <div class="flex items-center gap-3">
-                                    <div class="w-9 h-9 rounded-full bg-blue-100 text-blue-700 font-bold flex items-center justify-center text-xs">
-                                        {{ mb_substr($user->name, 0, 1) }}
-                                    </div>
+                                    @if($user->avatar_url)
+                                        <img src="{{ $user->avatar_url }}" alt="{{ $user->name }}" class="w-9 h-9 rounded-full object-cover border border-slate-200 shadow-2xs flex-shrink-0">
+                                    @else
+                                        <div class="w-9 h-9 rounded-full bg-blue-100 text-blue-700 font-bold flex items-center justify-center text-xs flex-shrink-0">
+                                            {{ mb_substr($user->name, 0, 1) }}
+                                        </div>
+                                    @endif
                                     <span>{{ $user->name }}</span>
                                 </div>
                             </td>
@@ -116,8 +120,25 @@
             <button onclick="document.getElementById('createUserModal').classList.add('hidden')" class="text-slate-400 hover:text-slate-600">&times;</button>
         </div>
 
-        <form method="POST" action="{{ route('users.store') }}" class="space-y-4">
+        <form method="POST" action="{{ route('users.store') }}" enctype="multipart/form-data" class="space-y-4">
             @csrf
+
+            <!-- Avatar Upload with Live Preview -->
+            <div>
+                <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">รูปโปรไฟล์ (Avatar)</label>
+                <div class="flex items-center gap-3">
+                    <div id="avatarPreviewContainer" class="w-12 h-12 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center overflow-hidden flex-shrink-0 shadow-2xs">
+                        <img id="avatarPreviewImg" src="" class="w-full h-full object-cover hidden">
+                        <i id="avatarPlaceholderIcon" class="bi bi-person text-slate-400 text-xl"></i>
+                    </div>
+                    <div class="flex-1">
+                        <input type="file" name="avatar" accept="image/*" onchange="previewUserAvatar(event)"
+                               class="w-full text-xs text-slate-500 file:mr-2 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer">
+                        <p class="text-[11px] text-slate-400 mt-0.5">รองรับ JPG, PNG, WEBP (ไม่เกิน 2MB)</p>
+                    </div>
+                </div>
+            </div>
+
             <div>
                 <label class="block text-xs font-semibold text-slate-700 uppercase mb-1">ชื่อ-นามสกุล <span class="text-rose-500">*</span></label>
                 <input type="text" name="name" required class="w-full px-3 py-2 text-sm bg-white border border-slate-200 rounded-xl focus:border-blue-500">
@@ -159,4 +180,21 @@
         </form>
     </div>
 </div>
+
+<script>
+function previewUserAvatar(event) {
+    const input = event.target;
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const img = document.getElementById('avatarPreviewImg');
+            const icon = document.getElementById('avatarPlaceholderIcon');
+            img.src = e.target.result;
+            img.classList.remove('hidden');
+            if (icon) icon.classList.add('hidden');
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+</script>
 @endsection

@@ -1,4 +1,4 @@
-<header class="h-16 bg-white border-b border-slate-200 px-4 sm:px-6 flex items-center justify-between shadow-xs">
+<header class="h-16 bg-white border-b border-slate-200 px-4 sm:px-6 flex items-center justify-between shadow-xs flex-shrink-0">
     <div class="flex items-center gap-3">
         <!-- Hamburger Menu Button for Mobile (<992px) -->
         <button class="btn btn-sm btn-light border text-secondary d-lg-none d-inline-flex align-items-center justify-content-center px-2.5 py-1.5 rounded-lg shadow-2xs"

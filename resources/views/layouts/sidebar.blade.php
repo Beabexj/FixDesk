@@ -1,11 +1,11 @@
 <!-- Bootstrap 5.3 Responsive Sidebar: Variant 2 (bg-body-tertiary with offcanvas-lg) -->
 <aside id="sidebarMenu"
-       class="offcanvas-lg offcanvas-start d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary border-end shadow-xs"
+       class="offcanvas-lg offcanvas-start d-flex flex-column flex-shrink-0 p-3 bg-body-tertiary border-end shadow-xs sticky-lg-top"
        tabindex="-1"
        aria-labelledby="sidebarMenuLabel"
-       style="width: 280px; min-height: 100vh;">
+       style="width: 280px; height: 100vh; max-height: 100vh;">
     <!-- Header with Brand & Mobile Close Button -->
-    <div class="d-flex align-items-center justify-content-between mb-3 mb-md-0 px-1">
+    <div class="d-flex align-items-center justify-content-between mb-3 mb-md-0 px-1 flex-shrink-0">
         <a href="{{ route('dashboard') }}" class="d-flex align-items-center gap-2 link-body-emphasis text-decoration-none">
             <div class="rounded-3 bg-primary text-white d-flex align-items-center justify-content-center shadow-sm" style="width: 38px; height: 38px;">
                 <i class="bi bi-wrench-adjustable-circle fs-5"></i>
@@ -18,10 +18,10 @@
         <button type="button" class="btn-close d-lg-none" data-bs-dismiss="offcanvas" data-bs-target="#sidebarMenu" aria-label="Close"></button>
     </div>
 
-    <hr class="my-3 opacity-15">
+    <hr class="my-3 opacity-15 flex-shrink-0">
 
     <!-- Navigation Menu (nav-pills) -->
-    <ul class="nav nav-pills flex-column mb-auto gap-1">
+    <ul class="nav nav-pills flex-column mb-auto gap-1 overflow-y-auto flex-nowrap py-1">
         <li class="nav-item">
             <a href="{{ route('dashboard') }}"
                class="nav-link d-flex align-items-center gap-2.5 py-2 px-3 fw-medium {{ request()->routeIs('dashboard') ? 'active' : 'link-body-emphasis' }}"
@@ -66,10 +66,10 @@
         @endif
     </ul>
 
-    <hr class="my-3 opacity-15">
+    <hr class="my-3 opacity-15 flex-shrink-0">
 
     <!-- Bottom User Dropdown Menu -->
-    <div class="dropdown dropup">
+    <div class="dropdown dropup mt-auto flex-shrink-0">
         <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle p-2 rounded-3 hover-bg" data-bs-toggle="dropdown" aria-expanded="false">
             <div class="rounded-circle bg-primary-subtle text-primary border border-primary-subtle d-flex align-items-center justify-content-center me-2 fw-bold" style="width: 36px; height: 36px; font-size: 13px;">
                 {{ mb_substr(auth()->user()?->name ?? 'U', 0, 2) }}

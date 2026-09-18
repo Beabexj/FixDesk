@@ -15,15 +15,16 @@ class DashboardController extends Controller
     {
         $stats = [
             'total_repairs' => Repair::count(),
-            'pending_repairs' => Repair::where('status', 'pending')->count(),
-            'in_progress_repairs' => Repair::where('status', 'in_progress')->count(),
-            'completed_repairs' => Repair::where('status', 'completed')->count(),
+            'received_repairs' => Repair::where('status', Repair::STATUS_RECEIVED)->count(),
+            'inspection_repairs' => Repair::where('status', Repair::STATUS_INSPECTION)->count(),
+            'in_progress_repairs' => Repair::whereIn('status', [Repair::STATUS_IN_PROGRESS, Repair::STATUS_WAITING_PARTS])->count(),
+            'completed_repairs' => Repair::whereIn('status', [Repair::STATUS_COMPLETED, Repair::STATUS_DELIVERED])->count(),
             'total_customers' => Customer::count(),
-            'total_revenue' => Repair::where('status', 'completed')->sum('total_cost'),
+            'total_revenue' => Repair::whereIn('status', [Repair::STATUS_COMPLETED, Repair::STATUS_DELIVERED])->sum('total_cost'),
         ];
 
         $recent_repairs = Repair::with(['customer', 'technician'])
-            ->latest()
+            ->latest('received_at')
             ->take(6)
             ->get();
 
@@ -31,6 +32,8 @@ class DashboardController extends Controller
             ->take(5)
             ->get();
 
-        return view('dashboard.index', compact('stats', 'recent_repairs', 'recent_customers'));
+        $statuses = Repair::statuses();
+
+        return view('dashboard.index', compact('stats', 'recent_repairs', 'recent_customers', 'statuses'));
     }
 }

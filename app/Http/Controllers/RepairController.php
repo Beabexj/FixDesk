@@ -74,7 +74,7 @@ class RepairController extends Controller
             'accessories' => ['nullable', 'string'],
             'repair_notes' => ['nullable', 'string'],
             'priority' => ['required', 'in:low,normal,high,urgent'],
-            'status' => ['required', 'in:pending,in_progress,waiting_parts,completed,delivered,cancelled'],
+            'status' => ['required', 'in:received,inspection,in_progress,waiting_parts,completed,delivered,cancelled'],
             'estimated_cost' => ['nullable', 'numeric', 'min:0'],
         ]);
 
@@ -128,12 +128,12 @@ class RepairController extends Controller
             'accessories' => ['nullable', 'string'],
             'repair_notes' => ['nullable', 'string'],
             'priority' => ['required', 'in:low,normal,high,urgent'],
-            'status' => ['required', 'in:pending,in_progress,waiting_parts,completed,delivered,cancelled'],
+            'status' => ['required', 'in:received,inspection,in_progress,waiting_parts,completed,delivered,cancelled'],
             'estimated_cost' => ['nullable', 'numeric', 'min:0'],
             'total_cost' => ['nullable', 'numeric', 'min:0'],
         ]);
 
-        if ($validated['status'] === 'completed' && ! $repair->completed_at) {
+        if (in_array($validated['status'], ['completed', 'delivered']) && ! $repair->completed_at) {
             $validated['completed_at'] = now();
         }
 

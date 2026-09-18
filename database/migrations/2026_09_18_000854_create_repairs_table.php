@@ -23,7 +23,7 @@ return new class extends Migration
             $table->text('problem_description');
             $table->text('accessories')->nullable();
             $table->text('repair_notes')->nullable();
-            $table->string('status')->default('pending');
+            $table->string('status')->default('received');
             $table->string('priority')->default('normal');
             $table->decimal('estimated_cost', 10, 2)->default(0);
             $table->decimal('total_cost', 10, 2)->default(0);

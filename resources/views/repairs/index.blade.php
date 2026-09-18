@@ -32,10 +32,11 @@
             <div>
                 <select name="status" class="w-full px-3.5 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-hidden focus:bg-white focus:border-blue-500">
                     <option value="">-- ทุกสถานะ --</option>
-                    <option value="pending" {{ request('status') === 'pending' ? 'selected' : '' }}>รอดำเนินการ (Pending)</option>
+                    <option value="received" {{ request('status') === 'received' ? 'selected' : '' }}>รับเครื่อง (Received)</option>
+                    <option value="inspection" {{ request('status') === 'inspection' ? 'selected' : '' }}>ตรวจสอบ (Inspection)</option>
                     <option value="in_progress" {{ request('status') === 'in_progress' ? 'selected' : '' }}>กำลังซ่อม (In Progress)</option>
                     <option value="waiting_parts" {{ request('status') === 'waiting_parts' ? 'selected' : '' }}>รออะไหล่ (Waiting Parts)</option>
-                    <option value="completed" {{ request('status') === 'completed' ? 'selected' : '' }}>ซ่อมเสร็จสิ้น (Completed)</option>
+                    <option value="completed" {{ request('status') === 'completed' ? 'selected' : '' }}>ซ่อมเสร็จ (Completed)</option>
                     <option value="delivered" {{ request('status') === 'delivered' ? 'selected' : '' }}>ส่งมอบแล้ว (Delivered)</option>
                     <option value="cancelled" {{ request('status') === 'cancelled' ? 'selected' : '' }}>ยกเลิก (Cancelled)</option>
                 </select>
@@ -117,26 +118,8 @@
                                 </span>
                             </td>
                             <td class="px-4 py-4 whitespace-nowrap">
-                                @php
-                                    $statusClasses = [
-                                        'pending' => 'bg-amber-50 text-amber-700 border-amber-200',
-                                        'in_progress' => 'bg-blue-50 text-blue-700 border-blue-200',
-                                        'waiting_parts' => 'bg-purple-50 text-purple-700 border-purple-200',
-                                        'completed' => 'bg-emerald-50 text-emerald-700 border-emerald-200',
-                                        'delivered' => 'bg-slate-100 text-slate-700 border-slate-200',
-                                        'cancelled' => 'bg-rose-50 text-rose-700 border-rose-200',
-                                    ];
-                                    $statusLabels = [
-                                        'pending' => 'รอดำเนินการ',
-                                        'in_progress' => 'กำลังซ่อม',
-                                        'waiting_parts' => 'รออะไหล่',
-                                        'completed' => 'ซ่อมเสร็จแล้ว',
-                                        'delivered' => 'ส่งมอบแล้ว',
-                                        'cancelled' => 'ยกเลิก',
-                                    ];
-                                @endphp
-                                <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold border {{ $statusClasses[$repair->status] ?? '' }}">
-                                    {{ $statusLabels[$repair->status] ?? $repair->status }}
+                                <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold border {{ $repair->status_badge_class }}">
+                                    {{ $repair->status_label }}
                                 </span>
                             </td>
                             <td class="px-4 py-4 text-xs text-slate-500 whitespace-nowrap">

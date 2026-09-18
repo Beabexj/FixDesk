@@ -100,12 +100,13 @@
                     <div>
                         <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">สถานะงานซ่อม <span class="text-rose-500">*</span></label>
                         <select name="status" required class="w-full px-3.5 py-2 text-sm bg-white border border-slate-200 rounded-xl focus:border-blue-500 focus:ring-2 focus:ring-blue-100">
-                            <option value="pending" {{ old('status', $repair->status) === 'pending' ? 'selected' : '' }}>รอดำเนินการ</option>
-                            <option value="in_progress" {{ old('status', $repair->status) === 'in_progress' ? 'selected' : '' }}>กำลังซ่อม</option>
-                            <option value="waiting_parts" {{ old('status', $repair->status) === 'waiting_parts' ? 'selected' : '' }}>รออะไหล่</option>
-                            <option value="completed" {{ old('status', $repair->status) === 'completed' ? 'selected' : '' }}>ซ่อมเสร็จสิ้น</option>
-                            <option value="delivered" {{ old('status', $repair->status) === 'delivered' ? 'selected' : '' }}>ส่งมอบแล้ว</option>
-                            <option value="cancelled" {{ old('status', $repair->status) === 'cancelled' ? 'selected' : '' }}>ยกเลิกงานซ่อม</option>
+                            <option value="received" {{ old('status', $repair->status) === 'received' ? 'selected' : '' }}>รับเครื่อง (Received)</option>
+                            <option value="inspection" {{ old('status', $repair->status) === 'inspection' ? 'selected' : '' }}>ตรวจสอบ (Inspection)</option>
+                            <option value="in_progress" {{ old('status', $repair->status) === 'in_progress' ? 'selected' : '' }}>กำลังซ่อม (In Progress)</option>
+                            <option value="waiting_parts" {{ old('status', $repair->status) === 'waiting_parts' ? 'selected' : '' }}>รออะไหล่ (Waiting Parts)</option>
+                            <option value="completed" {{ old('status', $repair->status) === 'completed' ? 'selected' : '' }}>ซ่อมเสร็จ (Completed)</option>
+                            <option value="delivered" {{ old('status', $repair->status) === 'delivered' ? 'selected' : '' }}>ส่งมอบแล้ว (Delivered)</option>
+                            <option value="cancelled" {{ old('status', $repair->status) === 'cancelled' ? 'selected' : '' }}>ยกเลิก (Cancelled)</option>
                         </select>
                     </div>
 

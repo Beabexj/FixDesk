@@ -25,11 +25,16 @@ class ReportController extends Controller
             ->take(6)
             ->get();
 
-        $totalIncome = Repair::where('status', 'completed')->sum('total_cost');
-        $estimatedPending = Repair::whereIn('status', ['pending', 'in_progress', 'waiting_parts'])->sum('estimated_cost');
+        $totalIncome = Repair::whereIn('status', [Repair::STATUS_COMPLETED, Repair::STATUS_DELIVERED])->sum('total_cost');
+        $estimatedPending = Repair::whereIn('status', [
+            Repair::STATUS_RECEIVED,
+            Repair::STATUS_INSPECTION,
+            Repair::STATUS_IN_PROGRESS,
+            Repair::STATUS_WAITING_PARTS,
+        ])->sum('estimated_cost');
 
         $completedRepairs = Repair::with(['customer', 'technician'])
-            ->where('status', 'completed')
+            ->whereIn('status', [Repair::STATUS_COMPLETED, Repair::STATUS_DELIVERED])
             ->latest('completed_at')
             ->take(10)
             ->get();

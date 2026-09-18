@@ -5,60 +5,74 @@
 @section('content')
 <div class="space-y-6">
     <!-- Stat Cards Grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
         <!-- Total Repairs -->
         <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between">
             <div>
-                <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">งานซ่อมทั้งหมด</p>
+                <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">งานทั้งหมด</p>
                 <h3 class="text-2xl font-bold text-slate-800 mt-1">{{ number_format($stats['total_repairs']) }}</h3>
-                <span class="text-xs text-blue-600 font-medium">รายการในระบบ</span>
+                <span class="text-xs text-blue-600 font-medium">ทุกรายการ</span>
             </div>
-            <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="w-11 h-11 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                 </svg>
             </div>
         </div>
 
-        <!-- Pending / Waiting -->
+        <!-- Received (รับเครื่อง) -->
         <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between">
             <div>
-                <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">รอดำเนินการ</p>
-                <h3 class="text-2xl font-bold text-amber-600 mt-1">{{ number_format($stats['pending_repairs']) }}</h3>
-                <span class="text-xs text-amber-600 font-medium">รอช่างตรวจเช็ค</span>
+                <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">รับเครื่อง</p>
+                <h3 class="text-2xl font-bold text-slate-700 mt-1">{{ number_format($stats['received_repairs']) }}</h3>
+                <span class="text-xs text-slate-500 font-medium">รอช่างตรวจเช็ค</span>
             </div>
-            <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            <div class="w-11 h-11 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
                 </svg>
             </div>
         </div>
 
-        <!-- In Progress -->
+        <!-- Inspection (ตรวจสอบ) -->
         <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between">
             <div>
-                <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">กำลังดำเนินการซ่อม</p>
-                <h3 class="text-2xl font-bold text-indigo-600 mt-1">{{ number_format($stats['in_progress_repairs']) }}</h3>
-                <span class="text-xs text-indigo-600 font-medium">อยู่ระหว่างซ่อม/รออะไหล่</span>
+                <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">รอตรวจสอบ</p>
+                <h3 class="text-2xl font-bold text-cyan-600 mt-1">{{ number_format($stats['inspection_repairs']) }}</h3>
+                <span class="text-xs text-cyan-600 font-medium">กำลังเช็คอาการ</span>
             </div>
-            <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="w-11 h-11 rounded-xl bg-cyan-50 text-cyan-600 flex items-center justify-center">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+            </div>
+        </div>
+
+        <!-- In Progress & Waiting Parts (กำลังซ่อม) -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between">
+            <div>
+                <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">กำลังซ่อม</p>
+                <h3 class="text-2xl font-bold text-blue-600 mt-1">{{ number_format($stats['in_progress_repairs']) }}</h3>
+                <span class="text-xs text-blue-600 font-medium">รวมรออะไหล่</span>
+            </div>
+            <div class="w-11 h-11 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
             </div>
         </div>
 
-        <!-- Completed / Revenue -->
+        <!-- Completed / Delivered -->
         <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex items-center justify-between">
             <div>
-                <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">ซ่อมเสร็จแล้ว (รายได้รวม)</p>
-                <h3 class="text-2xl font-bold text-emerald-600 mt-1">฿{{ number_format($stats['total_revenue'], 2) }}</h3>
-                <span class="text-xs text-emerald-600 font-medium">{{ $stats['completed_repairs'] }} รายการสำเร็จ</span>
+                <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">ซ่อมเสร็จ / ส่งมอบ</p>
+                <h3 class="text-2xl font-bold text-emerald-600 mt-1">{{ number_format($stats['completed_repairs']) }}</h3>
+                <span class="text-xs text-emerald-600 font-medium">฿{{ number_format($stats['total_revenue'], 2) }}</span>
             </div>
-            <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            <div class="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                 </svg>
             </div>
         </div>
@@ -70,8 +84,8 @@
         <div class="lg:col-span-2 bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
             <div class="p-5 border-b border-slate-100 flex items-center justify-between">
                 <div>
-                    <h2 class="font-bold text-slate-800 text-base">รายการแจ้งซ่อมล่าสุด</h2>
-                    <p class="text-xs text-slate-400 mt-0.5">รายการซ่อมที่มีการอัปเดตล่าสุดในระบบ</p>
+                    <h2 class="font-bold text-slate-800 text-base">งานซ่อมล่าสุด</h2>
+                    <p class="text-xs text-slate-400 mt-0.5">รายการซ่อมที่มีการบันทึกและอัปเดตสถานะล่าสุด</p>
                 </div>
                 <a href="{{ route('repairs.index') }}" class="text-xs font-semibold text-blue-600 hover:text-blue-700 flex items-center gap-1">
                     ดูทั้งหมด
@@ -85,9 +99,9 @@
                 <table class="w-full text-left text-sm">
                     <thead class="bg-slate-50/80 text-xs text-slate-500 uppercase font-semibold border-b border-slate-100">
                         <tr>
-                            <th class="px-5 py-3">รหัสแจ้งซ่อม</th>
+                            <th class="px-5 py-3">รหัสงาน</th>
                             <th class="px-4 py-3">ลูกค้า</th>
-                            <th class="px-4 py-3">อุปกรณ์ / อาการ</th>
+                            <th class="px-4 py-3">อุปกรณ์ / รุ่น</th>
                             <th class="px-4 py-3">สถานะ</th>
                             <th class="px-5 py-3 text-right">การกระทำ</th>
                         </tr>
@@ -95,7 +109,7 @@
                     <tbody class="divide-y divide-slate-100">
                         @forelse($recent_repairs as $repair)
                             <tr class="hover:bg-slate-50/60 transition-colors">
-                                <td class="px-5 py-3.5 font-medium text-slate-800 whitespace-nowrap">
+                                <td class="px-5 py-3.5 font-bold text-slate-800 whitespace-nowrap">
                                     <a href="{{ route('repairs.show', $repair) }}" class="text-blue-600 hover:underline">
                                         {{ $repair->repair_code }}
                                     </a>
@@ -105,30 +119,12 @@
                                     <div class="text-xs text-slate-400">{{ $repair->customer->phone ?? '' }}</div>
                                 </td>
                                 <td class="px-4 py-3.5">
-                                    <div class="font-medium text-slate-700">{{ $repair->device_type }} {{ $repair->brand }}</div>
+                                    <div class="font-medium text-slate-700">{{ $repair->device_type }} {{ $repair->brand }} {{ $repair->model }}</div>
                                     <div class="text-xs text-slate-400 truncate max-w-xs">{{ $repair->problem_description }}</div>
                                 </td>
                                 <td class="px-4 py-3.5 whitespace-nowrap">
-                                    @php
-                                        $statusClasses = [
-                                            'pending' => 'bg-amber-50 text-amber-700 border-amber-200',
-                                            'in_progress' => 'bg-blue-50 text-blue-700 border-blue-200',
-                                            'waiting_parts' => 'bg-purple-50 text-purple-700 border-purple-200',
-                                            'completed' => 'bg-emerald-50 text-emerald-700 border-emerald-200',
-                                            'delivered' => 'bg-slate-100 text-slate-700 border-slate-200',
-                                            'cancelled' => 'bg-rose-50 text-rose-700 border-rose-200',
-                                        ];
-                                        $statusLabels = [
-                                            'pending' => 'รอดำเนินการ',
-                                            'in_progress' => 'กำลังซ่อม',
-                                            'waiting_parts' => 'รออะไหล่',
-                                            'completed' => 'ซ่อมเสร็จแล้ว',
-                                            'delivered' => 'ส่งมอบแล้ว',
-                                            'cancelled' => 'ยกเลิก',
-                                        ];
-                                    @endphp
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border {{ $statusClasses[$repair->status] ?? 'bg-slate-50 text-slate-700 border-slate-200' }}">
-                                        {{ $statusLabels[$repair->status] ?? $repair->status }}
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold border {{ $repair->status_badge_class }}">
+                                        {{ $repair->status_label }}
                                     </span>
                                 </td>
                                 <td class="px-5 py-3.5 text-right whitespace-nowrap">

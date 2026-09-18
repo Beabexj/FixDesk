@@ -38,11 +38,12 @@
             <div class="space-y-3">
                 @php
                     $statusMap = [
-                        'pending' => ['name' => 'รอดำเนินการ (Pending)', 'color' => 'bg-amber-500'],
+                        'received' => ['name' => 'รับเครื่อง (Received)', 'color' => 'bg-slate-500'],
+                        'inspection' => ['name' => 'ตรวจสอบ (Inspection)', 'color' => 'bg-cyan-500'],
                         'in_progress' => ['name' => 'กำลังซ่อม (In Progress)', 'color' => 'bg-blue-500'],
                         'waiting_parts' => ['name' => 'รออะไหล่ (Waiting Parts)', 'color' => 'bg-purple-500'],
-                        'completed' => ['name' => 'ซ่อมเสร็จสิ้น (Completed)', 'color' => 'bg-emerald-500'],
-                        'delivered' => ['name' => 'ส่งมอบแล้ว (Delivered)', 'color' => 'bg-slate-500'],
+                        'completed' => ['name' => 'ซ่อมเสร็จ (Completed)', 'color' => 'bg-emerald-500'],
+                        'delivered' => ['name' => 'ส่งมอบแล้ว (Delivered)', 'color' => 'bg-teal-500'],
                         'cancelled' => ['name' => 'ยกเลิก (Cancelled)', 'color' => 'bg-rose-500'],
                     ];
                     $totalAll = array_sum($statusCounts) ?: 1;

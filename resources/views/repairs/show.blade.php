@@ -9,26 +9,8 @@
         <div>
             <div class="flex items-center gap-3">
                 <h2 class="text-2xl font-bold text-slate-800">{{ $repair->repair_code }}</h2>
-                @php
-                    $statusClasses = [
-                        'pending' => 'bg-amber-50 text-amber-700 border-amber-200',
-                        'in_progress' => 'bg-blue-50 text-blue-700 border-blue-200',
-                        'waiting_parts' => 'bg-purple-50 text-purple-700 border-purple-200',
-                        'completed' => 'bg-emerald-50 text-emerald-700 border-emerald-200',
-                        'delivered' => 'bg-slate-100 text-slate-700 border-slate-200',
-                        'cancelled' => 'bg-rose-50 text-rose-700 border-rose-200',
-                    ];
-                    $statusLabels = [
-                        'pending' => 'รอดำเนินการ',
-                        'in_progress' => 'กำลังซ่อม',
-                        'waiting_parts' => 'รออะไหล่',
-                        'completed' => 'ซ่อมเสร็จแล้ว',
-                        'delivered' => 'ส่งมอบแล้ว',
-                        'cancelled' => 'ยกเลิก',
-                    ];
-                @endphp
-                <span class="px-3 py-1 rounded-full text-xs font-semibold border {{ $statusClasses[$repair->status] ?? '' }}">
-                    {{ $statusLabels[$repair->status] ?? $repair->status }}
+                <span class="px-3 py-1 rounded-full text-xs font-semibold border {{ $repair->status_badge_class }}">
+                    {{ $repair->status_label }}
                 </span>
             </div>
             <p class="text-xs text-slate-500 mt-1">รับเครื่องวันที่: {{ $repair->received_at ? $repair->received_at->format('d/m/Y H:i น.') : '-' }}</p>

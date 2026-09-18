@@ -79,9 +79,9 @@
     </div>
 
     <!-- Main Section: Recent Repairs & Customers -->
-    <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
-        <!-- Recent Repairs Table (2 Cols on XL) -->
-        <div class="xl:col-span-2 bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+    <div class="grid grid-cols-1 xl:grid-cols-12 gap-6">
+        <!-- Recent Repairs Table (9 of 12 Cols on XL = 75% width) -->
+        <div class="xl:col-span-9 bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
             <div class="p-4 sm:p-5 border-b border-slate-100 flex items-center justify-between">
                 <div>
                     <h2 class="font-bold text-slate-800 text-base">งานซ่อมล่าสุด</h2>
@@ -115,19 +115,19 @@
                                     </a>
                                 </td>
                                 <td class="px-3.5 py-3 whitespace-nowrap">
-                                    <div class="font-medium text-slate-700 truncate max-w-[120px]">{{ $repair->customer->name ?? '-' }}</div>
+                                    <div class="font-medium text-slate-700 truncate max-w-[150px] 2xl:max-w-[200px]" title="{{ $repair->customer->name ?? '-' }}">{{ $repair->customer->name ?? '-' }}</div>
                                     <div class="text-xs text-slate-400">{{ $repair->customer->phone ?? '' }}</div>
                                 </td>
                                 <td class="px-3.5 py-3">
-                                    <div class="font-medium text-slate-700 truncate max-w-[180px] sm:max-w-[220px]" title="{{ $repair->device_type }} {{ $repair->brand }} {{ $repair->model }}">
+                                    <div class="font-medium text-slate-700 truncate max-w-[220px] 2xl:max-w-[320px]" title="{{ $repair->device_type }} {{ $repair->brand }} {{ $repair->model }}">
                                         {{ $repair->device_type }} {{ $repair->brand }} {{ $repair->model }}
                                     </div>
-                                    <div class="text-xs text-slate-400 truncate max-w-[180px] sm:max-w-[220px]" title="{{ $repair->problem_description }}">
+                                    <div class="text-xs text-slate-400 truncate max-w-[220px] 2xl:max-w-[320px]" title="{{ $repair->problem_description }}">
                                         {{ $repair->problem_description }}
                                     </div>
                                 </td>
                                 <td class="px-3.5 py-3 whitespace-nowrap">
-                                    <x-status-badge :status="$repair->status" size="xs" />
+                                    <x-status-badge :status="$repair->status" size="sm" />
                                 </td>
                                 <td class="px-4 py-3 text-right whitespace-nowrap">
                                     <x-button variant="outline" size="sm" href="{{ route('repairs.show', $repair) }}">
@@ -145,9 +145,9 @@
             </div>
         </div>
 
-        <!-- Recent Customers (1 Col) -->
-        <div class="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
-            <div class="p-5 border-b border-slate-100 flex items-center justify-between">
+        <!-- Recent Customers (3 of 12 Cols on XL = 25% width) -->
+        <div class="xl:col-span-3 bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden flex flex-col">
+            <div class="p-4 sm:p-5 border-b border-slate-100 flex items-center justify-between">
                 <div>
                     <h2 class="font-bold text-slate-800 text-base">ลูกค้าล่าสุด</h2>
                     <p class="text-xs text-slate-400 mt-0.5">รายชื่อลูกค้าที่เพิ่มล่าสุด</p>
@@ -157,19 +157,19 @@
                 </a>
             </div>
 
-            <div class="p-5 divide-y divide-slate-100 space-y-4">
+            <div class="p-4 sm:p-5 divide-y divide-slate-100 space-y-3.5 flex-1">
                 @forelse($recent_customers as $customer)
-                    <div class="pt-3 first:pt-0 flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-full bg-blue-50 text-blue-600 font-bold flex items-center justify-center text-sm">
+                    <div class="pt-3 first:pt-0 flex items-center justify-between gap-2">
+                        <div class="flex items-center gap-2.5 min-w-0">
+                            <div class="w-9 h-9 rounded-full bg-blue-50 text-blue-600 font-bold flex items-center justify-center text-xs flex-shrink-0">
                                 {{ mb_substr($customer->name, 0, 1) }}
                             </div>
-                            <div>
-                                <h4 class="text-sm font-semibold text-slate-800">{{ $customer->name }}</h4>
-                                <p class="text-xs text-slate-400">{{ $customer->phone }}</p>
+                            <div class="min-w-0">
+                                <h4 class="text-sm font-semibold text-slate-800 truncate" title="{{ $customer->name }}">{{ $customer->name }}</h4>
+                                <p class="text-xs text-slate-400 truncate">{{ $customer->phone }}</p>
                             </div>
                         </div>
-                        <a href="{{ route('customers.show', $customer) }}" class="text-xs font-medium text-slate-600 hover:text-blue-600">
+                        <a href="{{ route('customers.show', $customer) }}" class="text-xs font-medium text-slate-500 hover:text-blue-600 flex-shrink-0 px-2 py-1 rounded-lg hover:bg-slate-100 transition-colors">
                             ดูข้อมูล
                         </a>
                     </div>

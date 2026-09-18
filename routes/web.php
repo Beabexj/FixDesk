@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RepairController;
@@ -7,19 +8,32 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-Route::redirect('/', '/dashboard');
+// Authentication (Guest Only)
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [AuthController::class, 'login'])->name('login.post');
+});
 
-// Dashboard
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+// Protected Routes (Requires Login)
+Route::middleware('auth')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// Customers Management
-Route::resource('customers', CustomerController::class);
+    Route::redirect('/', '/dashboard');
 
-// Repairs Management
-Route::resource('repairs', RepairController::class);
+    // Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-// Users / Technicians Management
-Route::resource('users', UserController::class);
+    // Repairs Management
+    Route::resource('repairs', RepairController::class);
 
-// Reports & Analytics
-Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+    // Customers Management
+    Route::resource('customers', CustomerController::class);
+
+    // Reports & Analytics
+    Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
+
+    // Admin Only: Users & Technicians Management
+    Route::middleware('admin')->group(function () {
+        Route::resource('users', UserController::class);
+    });
+});

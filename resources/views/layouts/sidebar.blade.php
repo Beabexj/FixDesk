@@ -50,25 +50,48 @@
             รายงานและสถิติ
         </a>
 
-        <a href="{{ route('users.index') }}"
-           class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors {{ request()->routeIs('users.*') ? 'bg-blue-600 text-white shadow-sm shadow-blue-600/30' : 'text-slate-300 hover:bg-slate-800/80 hover:text-white' }}">
-            <svg class="w-5 h-5 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-            </svg>
-            ผู้ใช้งานและช่างซ่อม
-        </a>
+        @if(auth()->user()?->role === 'admin')
+            <a href="{{ route('users.index') }}"
+               class="flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors {{ request()->routeIs('users.*') ? 'bg-blue-600 text-white shadow-sm shadow-blue-600/30' : 'text-slate-300 hover:bg-slate-800/80 hover:text-white' }}">
+                <svg class="w-5 h-5 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                </svg>
+                ผู้ใช้งานและช่างซ่อม
+            </a>
+        @endif
     </nav>
 
-    <!-- Bottom user panel -->
-    <div class="p-4 border-t border-slate-800/80 bg-slate-950/40">
-        <div class="flex items-center gap-3">
-            <div class="w-9 h-9 rounded-full bg-slate-700 flex items-center justify-center font-bold text-sm text-slate-200">
-                AD
+    <!-- Bottom user profile & Logout panel -->
+    <div class="p-4 border-t border-slate-800/80 bg-slate-950/50">
+        <div class="flex items-center justify-between gap-3">
+            <div class="flex items-center gap-2.5 overflow-hidden">
+                <div class="w-9 h-9 rounded-full bg-blue-600/30 border border-blue-500/30 text-blue-400 flex items-center justify-center font-bold text-xs flex-shrink-0">
+                    {{ mb_substr(auth()->user()?->name ?? 'AD', 0, 2) }}
+                </div>
+                <div class="overflow-hidden">
+                    <div class="text-xs font-semibold text-white truncate">{{ auth()->user()?->name ?? 'ผู้ดูแลระบบ' }}</div>
+                    <div class="text-[10px] text-slate-400 truncate">
+                        @if(auth()->user()?->role === 'admin')
+                            <span class="text-purple-300 font-medium">ผู้ดูแลระบบ (Admin)</span>
+                        @elseif(auth()->user()?->role === 'technician')
+                            <span class="text-blue-300 font-medium">ช่างซ่อม (Technician)</span>
+                        @else
+                            <span class="text-slate-300">เจ้าหน้าที่</span>
+                        @endif
+                    </div>
+                </div>
             </div>
-            <div class="overflow-hidden">
-                <div class="text-xs font-semibold text-white truncate">ผู้ดูแลระบบ</div>
-                <div class="text-[11px] text-slate-400 truncate">admin@fixdesk.local</div>
-            </div>
+
+            <!-- Logout Button -->
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" title="ออกจากระบบ"
+                        class="p-2 rounded-lg text-slate-400 hover:text-rose-400 hover:bg-slate-800 transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                    </svg>
+                </button>
+            </form>
         </div>
     </div>
 </aside>

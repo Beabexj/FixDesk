@@ -15,10 +15,14 @@
             เปิดใบแจ้งซ่อมใหม่
         </a>
 
-        <!-- Status pill -->
-        <div class="hidden sm:flex items-center gap-2 pl-3 border-l border-slate-200 text-xs text-slate-500">
-            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            ระบบออนไลน์
-        </div>
+        <!-- User Profile Pill -->
+        @auth
+            <div class="hidden sm:flex items-center gap-2 pl-3 border-l border-slate-200">
+                <span class="text-xs text-slate-600">สวัสดี, <strong class="text-slate-800">{{ auth()->user()->name }}</strong></span>
+                <span class="px-2 py-0.5 rounded-full text-[11px] font-semibold {{ auth()->user()->role === 'admin' ? 'bg-purple-100 text-purple-700' : 'bg-blue-100 text-blue-700' }}">
+                    {{ auth()->user()->role === 'admin' ? 'Admin' : 'ช่างซ่อม' }}
+                </span>
+            </div>
+        @endauth
     </div>
 </header>

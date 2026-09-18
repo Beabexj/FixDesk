@@ -1,9 +1,15 @@
+@import 'bootstrap/dist/css/bootstrap.min.css';
+@import 'bootstrap-icons/font/bootstrap-icons.css';
 @import 'tailwindcss';
 
+@source '../views';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: 'Prompt', 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+}
+
+.hover-bg:hover {
+    background-color: rgba(0, 0, 0, 0.05);
 }
